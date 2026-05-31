@@ -585,16 +585,13 @@ body {
   margin-bottom: 12px;
 }
 
-.footer-column a {
+.footer-static-link {
   color: #fff;
   opacity: 0.7;
   text-decoration: none;
   font-size: 0.95rem;
-  transition: opacity var(--transition-speed) ease;
-}
-
-.footer-column a:hover {
-  opacity: 1;
+  cursor: default;
+  user-select: none;
 }
 
 .footer-divider {

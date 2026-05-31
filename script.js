@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // --- Accessibility Font Size Resizing ---
+  // --- Accessibility Font Size Resizing (Shared) ---
   const htmlElement = document.documentElement;
   let currentFontSize = 100; // in percent
 
@@ -22,78 +22,337 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Accordion details customization (Optional enhancements) ---
-  const details = document.querySelectorAll('details.faq-item');
-  
-  details.forEach((targetDetail) => {
-    targetDetail.addEventListener('click', (e) => {
-      // Close other details to make it act as a true accordion
-      if (targetDetail.hasAttribute('open')) return; // let normal closing happen
-      
-      details.forEach((detail) => {
-        if (detail !== targetDetail && detail.hasAttribute('open')) {
-          detail.removeAttribute('open');
-        }
+  // --- Landing Page Specific Logic ---
+  if (document.getElementById('Event')) {
+    // Accordion FAQ Toggles
+    const details = document.querySelectorAll('details.faq-item');
+    details.forEach((targetDetail) => {
+      targetDetail.addEventListener('click', () => {
+        if (targetDetail.hasAttribute('open')) return;
+        details.forEach((detail) => {
+          if (detail !== targetDetail && detail.hasAttribute('open')) {
+            detail.removeAttribute('open');
+          }
+        });
       });
     });
-  });
-
-  // --- Simulated Ticket Modal Handler ---
-  const modal = document.getElementById('simulation-modal');
-  const modalTitle = document.getElementById('modal-title');
-  const modalShowDate = document.getElementById('modal-show-date');
-  const closeModalBtn = document.getElementById('close-modal-btn');
-  const modalOkBtn = document.getElementById('btn-modal-ok');
-
-  function openSimulation(dateString) {
-    if (!modal) return;
-    
-    modalTitle.textContent = `Início da Venda Geral`;
-    modalShowDate.innerHTML = `Setor Selecionado: <strong>Ingresso - Show de ${dateString}</strong>`;
-    
-    // Show Modal with animation class
-    modal.classList.add('show');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden'; // lock scroll
   }
 
-  function closeModal() {
-    if (!modal) return;
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = ''; // unlock scroll
-  }
+  // --- Checkout Page Specific Logic ---
+  if (document.getElementById('CheckoutPage')) {
+    // Parse Query Parameters for selected date
+    const urlParams = new URLSearchParams(window.location.search);
+    let selectedDate = urlParams.get('date') || '28';
+    
+    // Validate date input
+    if (selectedDate !== '28' && selectedDate !== '30' && selectedDate !== '31') {
+      selectedDate = '28';
+    }
 
-  // Desktop buttons click
-  const soldOutButtons = document.querySelectorAll('.tmpe-link-details');
-  soldOutButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      const date = button.getAttribute('data-date');
-      openSimulation(date);
-    });
-  });
+    const summaryShowDateEl = document.getElementById('summary-show-date');
+    if (summaryShowDateEl) {
+      summaryShowDateEl.textContent = `Show de ${selectedDate} de Outubro de 2026`;
+    }
 
-  // Mobile list rows click
-  const ticketLinks = document.querySelectorAll('.tmpe-ticket-link');
-  ticketLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const date = link.getAttribute('data-date');
-      openSimulation(date);
-    });
-  });
+    // Step Navigation elements
+    const stepIndicators = {
+      1: document.getElementById('step-indicator-1'),
+      2: document.getElementById('step-indicator-2'),
+      3: document.getElementById('step-indicator-3')
+    };
 
-  // Close triggers
-  if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
-  if (modalOkBtn) modalOkBtn.addEventListener('click', closeModal);
+    const sections = {
+      1: document.getElementById('section-sectors'),
+      2: document.getElementById('section-identity'),
+      3: document.getElementById('section-payment')
+    };
 
-  // Close when clicking outside modal dialog
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeModal();
+    let currentStep = 1;
+
+    function goToStep(stepNumber) {
+      // Deactivate current
+      Object.keys(sections).forEach(key => {
+        sections[key].classList.remove('active');
+        stepIndicators[key].classList.remove('active');
+      });
+
+      // Activate new
+      sections[stepNumber].classList.add('active');
+      stepIndicators[stepNumber].classList.add('active');
+      currentStep = stepNumber;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Sector & Pricing details variables
+    const sectorRadios = document.querySelectorAll('input[name="sector-selection"]');
+    const qtyInput = document.getElementById('ticket-quantity');
+    const qtyPlusBtn = document.getElementById('qty-plus');
+    const qtyMinusBtn = document.getElementById('qty-minus');
+
+    const summaryItemDesc = document.getElementById('summary-item-desc');
+    const summaryItemPrice = document.getElementById('summary-item-price');
+    const summaryFeePrice = document.getElementById('summary-fee-price');
+    const summaryTotalPrice = document.getElementById('summary-total-price');
+
+    let ticketPrice = 850; // default for premium
+    let quantity = 1;
+    let sectorName = "Pista Premium";
+
+    function updatePricing() {
+      // Determine selected sector info
+      const checkedSector = document.querySelector('input[name="sector-selection"]:checked');
+      if (checkedSector) {
+        ticketPrice = parseFloat(checkedSector.getAttribute('data-price'));
+        sectorName = checkedSector.parentElement.querySelector('.sector-name').textContent;
       }
+
+      quantity = parseInt(qtyInput.value);
+
+      // Calculations
+      const subtotal = ticketPrice * quantity;
+      const serviceFee = subtotal * 0.10; // 10% fee
+      const total = subtotal + serviceFee;
+
+      // Update summary text
+      if (summaryItemDesc) summaryItemDesc.textContent = `${quantity}x ${sectorName}`;
+      if (summaryItemPrice) summaryItemPrice.textContent = `R$ ${subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      if (summaryFeePrice) summaryFeePrice.textContent = `R$ ${serviceFee.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      if (summaryTotalPrice) summaryTotalPrice.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    // Attach pricing listeners
+    sectorRadios.forEach(radio => {
+      radio.addEventListener('change', updatePricing);
     });
+
+    if (qtyPlusBtn && qtyMinusBtn && qtyInput) {
+      qtyPlusBtn.addEventListener('click', () => {
+        let val = parseInt(qtyInput.value);
+        if (val < 5) {
+          qtyInput.value = val + 1;
+          updatePricing();
+        }
+      });
+
+      qtyMinusBtn.addEventListener('click', () => {
+        let val = parseInt(qtyInput.value);
+        if (val > 1) {
+          qtyInput.value = val - 1;
+          updatePricing();
+        }
+      });
+    }
+
+    // Step 1 to 2 Navigation
+    document.getElementById('btn-to-identity').addEventListener('click', () => {
+      goToStep(2);
+    });
+
+    document.getElementById('btn-back-to-sectors').addEventListener('click', () => {
+      goToStep(1);
+    });
+
+    // Step 2 to 3 Navigation & Validation
+    const identityForm = document.getElementById('identity-form');
+    document.getElementById('btn-to-payment').addEventListener('click', () => {
+      const name = document.getElementById('buyer-name').value.trim();
+      const cpf = document.getElementById('buyer-cpf').value.trim();
+      const email = document.getElementById('buyer-email').value.trim();
+      const phone = document.getElementById('buyer-phone').value.trim();
+
+      if (!name || !cpf || !email || !phone) {
+        alert('Por favor, preencha todos os dados de identificação.');
+        return;
+      }
+      
+      goToStep(3);
+    });
+
+    document.getElementById('btn-back-to-identity').addEventListener('click', () => {
+      goToStep(2);
+    });
+
+    // Payment method tabs
+    const tabPix = document.getElementById('tab-pix');
+    const tabCard = document.getElementById('tab-card');
+    const pixContent = document.getElementById('payment-pix-content');
+    const cardContent = document.getElementById('payment-card-content');
+    let paymentMethod = 'pix';
+
+    if (tabPix && tabCard) {
+      tabPix.addEventListener('click', () => {
+        tabPix.classList.add('active');
+        tabCard.classList.remove('active');
+        pixContent.classList.add('active');
+        cardContent.classList.remove('active');
+        paymentMethod = 'pix';
+      });
+
+      tabCard.addEventListener('click', () => {
+        tabCard.classList.add('active');
+        tabPix.classList.remove('active');
+        cardContent.classList.add('active');
+        pixContent.classList.remove('active');
+        paymentMethod = 'card';
+      });
+    }
+
+    // CPF Masking
+    const cpfInput = document.getElementById('buyer-cpf');
+    if (cpfInput) {
+      cpfInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, "");
+        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+        value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        e.target.value = value;
+      });
+    }
+
+    // Phone Masking
+    const phoneInput = document.getElementById('buyer-phone');
+    if (phoneInput) {
+      phoneInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, "");
+        value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
+        value = value.replace(/(\d)(\d{4})$/g, "$1-$2");
+        e.target.value = value;
+      });
+    }
+
+    // Credit Card Expiry Masking
+    const expiryInput = document.getElementById('card-expiry');
+    if (expiryInput) {
+      expiryInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, "");
+        value = value.replace(/(\d{2})(\d)/, "$1/$2");
+        e.target.value = value;
+      });
+    }
+
+    // Credit card formatting
+    const ccInput = document.getElementById('card-number');
+    if (ccInput) {
+      ccInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, "");
+        value = value.replace(/(\d{4})(\d)/g, "$1 $2");
+        e.target.value = value.trim();
+      });
+    }
+
+    // Purchase validation and simulated completion
+    document.getElementById('btn-submit-purchase').addEventListener('click', () => {
+      const name = document.getElementById('buyer-name').value.trim();
+      const cpf = document.getElementById('buyer-cpf').value.trim();
+      const email = document.getElementById('buyer-email').value.trim();
+
+      // Card validations if card is selected
+      if (paymentMethod === 'card') {
+        const ccNumber = document.getElementById('card-number').value.trim();
+        const ccHolder = document.getElementById('card-holder').value.trim();
+        const ccExpiry = document.getElementById('card-expiry').value.trim();
+        const ccCvv = document.getElementById('card-cvv').value.trim();
+
+        if (!ccNumber || !ccHolder || !ccExpiry || !ccCvv) {
+          alert('Por favor, preencha todos os dados do Cartão de Crédito.');
+          return;
+        }
+      }
+
+      // Hide layout & render success tickets
+      document.getElementById('checkout-form-section').style.display = 'none';
+      const successSection = document.getElementById('checkout-success-section');
+      successSection.style.display = 'block';
+
+      // Generate Ticket HTML Elements
+      const generatedTicketsContainer = document.getElementById('generated-tickets-container');
+      generatedTicketsContainer.innerHTML = ''; // reset
+
+      // Draw vector mock QR code
+      const qrCodeMockSvg = `
+        <svg class="ticket-qr-sim" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer border -->
+          <rect x="0" y="0" width="100" height="100" fill="white" />
+          <!-- QR Code corners boxes -->
+          <rect x="5" y="5" width="25" height="25" fill="black" />
+          <rect x="10" y="10" width="15" height="15" fill="white" />
+          <rect x="13" y="13" width="9" height="9" fill="black" />
+          
+          <rect x="70" y="5" width="25" height="25" fill="black" />
+          <rect x="75" y="10" width="15" height="15" fill="white" />
+          <rect x="78" y="13" width="9" height="9" fill="black" />
+          
+          <rect x="5" y="70" width="25" height="25" fill="black" />
+          <rect x="10" y="75" width="15" height="15" fill="white" />
+          <rect x="13" y="78" width="9" height="9" fill="black" />
+          
+          <!-- Mock QR details dots -->
+          <rect x="40" y="15" width="5" height="15" fill="black" />
+          <rect x="50" y="5" width="10" height="5" fill="black" />
+          <rect x="35" y="40" width="15" height="5" fill="black" />
+          <rect x="15" y="40" width="5" height="10" fill="black" />
+          <rect x="45" y="50" width="20" height="10" fill="black" />
+          <rect x="70" y="45" width="10" height="15" fill="black" />
+          <rect x="80" y="75" width="10" height="10" fill="black" />
+          <rect x="45" y="70" width="15" height="5" fill="black" />
+          <rect x="50" y="80" width="15" height="15" fill="black" />
+        </svg>
+      `;
+
+      for (let i = 1; i <= quantity; i++) {
+        const ticketCode = `TM-${selectedDate}10-${Math.floor(100000 + Math.random() * 900000)}`;
+        const ticketCardHTML = `
+          <div class="tm-ticket-card">
+            <div class="ticket-main-info">
+              <div class="ticket-brand">
+                <img class="ticket-logo-tm" src="https://cdn.getcrowder.com/images/46b77c52-6acd-425b-985f-c036a9dcbf90-ticketmaster.svg?w=300" alt="Ticketmaster logo">
+                <span class="ticket-type-label">${sectorName}</span>
+              </div>
+              <h3 class="ticket-event-name">BTS WORLD TOUR ARIRANG</h3>
+              
+              <div class="ticket-grid-details">
+                <div class="ticket-field">
+                  <span class="ticket-field-label">Data</span>
+                  <span class="ticket-field-value">${selectedDate} de Outubro de 2026</span>
+                </div>
+                <div class="ticket-field">
+                  <span class="ticket-field-label">Local</span>
+                  <span class="ticket-field-value">Estádio MorumBIS</span>
+                </div>
+                <div class="ticket-field">
+                  <span class="ticket-field-label">Nome do Titular</span>
+                  <span class="ticket-field-value">${name}</span>
+                </div>
+                <div class="ticket-field">
+                  <span class="ticket-field-label">CPF</span>
+                  <span class="ticket-field-value">${cpf}</span>
+                </div>
+                <div class="ticket-field">
+                  <span class="ticket-field-label">Ingresso</span>
+                  <span class="ticket-field-value">${i} de ${quantity}</span>
+                </div>
+                <div class="ticket-field">
+                  <span class="ticket-field-label">Código</span>
+                  <span class="ticket-field-value">${ticketCode}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="ticket-barcode-info">
+              <div class="ticket-qrcode-wrapper">
+                ${qrCodeMockSvg}
+              </div>
+              <span class="ticket-serial">${ticketCode.replace('-', '')}</span>
+            </div>
+          </div>
+        `;
+        generatedTicketsContainer.insertAdjacentHTML('beforeend', ticketCardHTML);
+      }
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Initialize pricing on page load
+    updatePricing();
   }
 });

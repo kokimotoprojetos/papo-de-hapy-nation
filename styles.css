@@ -875,3 +875,810 @@ body {
     text-align: center;
   }
 }
+
+/* -------------------------------------------------------------
+   CHECKOUT PAGE SPECIFIC STYLES
+   ------------------------------------------------------------- */
+.checkout-main {
+  width: 100%;
+  padding: 40px 20px;
+  min-height: calc(100vh - 180px);
+}
+
+.checkout-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.checkout-left-column {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+/* Stepper Indicator */
+.stepper-container {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #f1f2f5;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.step {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  position: relative;
+  flex: 1;
+  text-align: center;
+}
+
+.step.active {
+  color: var(--primary-color);
+}
+
+.step.active::after {
+  content: '';
+  position: absolute;
+  bottom: -17px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--primary-color);
+}
+
+/* Checkout Sections */
+.checkout-section {
+  display: none;
+}
+
+.checkout-section.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.checkout-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: var(--text-dark);
+}
+
+/* Sector Selection Grid */
+.sectors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.sector-option {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.sector-option:hover {
+  background: #fcfdfe;
+  border-color: var(--primary-color);
+}
+
+.sector-option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.sector-option input[type="radio"]:checked + .sector-details .sector-name {
+  color: var(--primary-color);
+}
+
+.sector-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.sector-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  transition: color var(--transition-speed) ease;
+}
+
+.sector-price {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.fee-text {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+/* Quantity picker control */
+.quantity-picker-wrapper {
+  background: #f7f9fa;
+  border-radius: 6px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.quantity-picker-wrapper label {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.qty-btn {
+  background: transparent;
+  border: none;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-speed) ease;
+}
+
+.qty-btn:hover {
+  background: #f1f2f5;
+}
+
+.qty-control input {
+  width: 50px;
+  height: 40px;
+  border: none;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.max-qty-notice {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  width: 100%;
+}
+
+/* Checkout Buttons and Forms */
+.checkout-actions-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  gap: 15px;
+}
+
+.btn-checkout-next, .btn-checkout-submit {
+  font-family: var(--font-family);
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition-speed) ease;
+  flex: 1;
+  text-align: center;
+}
+
+.btn-checkout-next:hover, .btn-checkout-submit:hover {
+  background: var(--primary-hover);
+}
+
+.btn-checkout-prev {
+  font-family: var(--font-family);
+  background: white;
+  color: var(--text-gray);
+  border: 1px solid var(--border-color);
+  padding: 14px 28px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.btn-checkout-prev:hover {
+  background: #f8f9fa;
+  color: var(--text-dark);
+}
+
+/* Checkout Form Layouts */
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+.form-group input {
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  transition: border-color var(--transition-speed) ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-group-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.form-group-row-triple {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 20px;
+}
+
+/* Payment Tabs Setup */
+.payment-tabs {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.payment-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  transition: all var(--transition-speed) ease;
+}
+
+.payment-tab.active {
+  border-color: var(--primary-color);
+  background: rgba(2, 77, 223, 0.04);
+  color: var(--primary-color);
+}
+
+.payment-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.payment-content {
+  display: none;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: #fcfdfe;
+}
+
+.payment-content.active {
+  display: block;
+}
+
+.pix-instructions {
+  text-align: center;
+  font-size: 1.05rem;
+  padding: 15px 0;
+  line-height: 1.6;
+}
+
+.highlight-p {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* Cart Summary Box Right Sidebar */
+.cart-summary-box {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+  position: sticky;
+  top: 90px;
+}
+
+.summary-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text-dark);
+}
+
+.summary-event-info {
+  margin-bottom: 20px;
+}
+
+.summary-event-name {
+  font-size: 1.1rem;
+  font-weight: 900;
+  margin-bottom: 5px;
+}
+
+.summary-event-date {
+  font-size: 0.95rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.summary-event-venue {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.summary-divider {
+  border: 0;
+  height: 1px;
+  background: var(--border-color);
+  margin: 20px 0;
+}
+
+.summary-pricing-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.pricing-label {
+  color: var(--text-gray);
+}
+
+.pricing-value {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.summary-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.total-value {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--primary-color);
+}
+
+.guarantee-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 25px;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  background: #f7f9fa;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.lock-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* -------------------------------------------------------------
+   SUCCESS CONFIRMATION & DIGITAL TICKETS STYLES
+   ------------------------------------------------------------- */
+.checkout-success-container {
+  animation: fadeIn 0.4s ease;
+}
+
+.success-card {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 40px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+}
+
+.success-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.success-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background: rgba(4, 136, 81, 0.1);
+  color: #048851;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+}
+
+.success-check-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.success-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #048851;
+  margin-bottom: 8px;
+}
+
+.success-subtitle {
+  color: var(--text-gray);
+  font-size: 1.1rem;
+}
+
+.simulated-tickets-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 700px;
+  margin: 0 auto 40px auto;
+}
+
+/* Real-looking Ticketmaster Ticket Card */
+.tm-ticket-card {
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+}
+
+.tm-ticket-card::before, .tm-ticket-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  background: var(--bg-color);
+  border-radius: 50%;
+  z-index: 5;
+}
+
+.tm-ticket-card::before {
+  left: -10px;
+  transform: translateY(-50%);
+  border-right: 1px solid var(--border-color);
+}
+
+.tm-ticket-card::after {
+  right: -10px;
+  transform: translateY(-50%);
+  border-left: 1px solid var(--border-color);
+}
+
+.ticket-main-info {
+  flex: 2.2;
+  padding: 30px;
+  border-right: 2px dashed var(--border-color);
+}
+
+.ticket-brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ticket-logo-tm {
+  height: 18px;
+}
+
+.ticket-type-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  background: rgba(2, 77, 223, 0.08);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.ticket-event-name {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text-dark);
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+
+.ticket-grid-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.ticket-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-field-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.ticket-field-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* Ticket barcode/QR scanner right section */
+.ticket-barcode-info {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #fafbfc;
+}
+
+.ticket-qrcode-wrapper {
+  background: white;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.ticket-qr-sim {
+  width: 100px;
+  height: 100px;
+  display: block;
+}
+
+.ticket-serial {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--text-gray);
+  letter-spacing: 1px;
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-print {
+  font-family: var(--font-family);
+  background: #048851;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background var(--transition-speed) ease;
+}
+
+.btn-print:hover {
+  background: #036b3f;
+}
+
+.btn-back-home {
+  font-family: var(--font-family);
+  background: white;
+  color: var(--text-gray);
+  border: 1px solid var(--border-color);
+  padding: 14px 28px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: all var(--transition-speed) ease;
+}
+
+.btn-back-home:hover {
+  background: #f8f9fa;
+  color: var(--text-dark);
+}
+
+/* Available status design customizations */
+.badge-available {
+  border-color: rgba(4, 136, 81, 0.3);
+  background: rgba(4, 136, 81, 0.04);
+}
+
+.dot-available {
+  background: #048851;
+}
+
+.btn-available {
+  background: var(--primary-color) !important;
+  color: white !important;
+  text-decoration: none;
+}
+
+.btn-available:hover {
+  background: var(--primary-hover) !important;
+}
+
+/* -------------------------------------------------------------
+   PRINT MEDIA QUERY STYLES (Clean PDF Ingressos layout)
+   ------------------------------------------------------------- */
+@media print {
+  body {
+    background: white;
+    color: black;
+    padding-top: 0;
+  }
+  
+  .navbar-header,
+  .accessibility-widget,
+  .success-header,
+  .success-actions,
+  .footer-section {
+    display: none !important;
+  }
+  
+  #checkout-container {
+    padding: 0;
+  }
+  
+  .success-card {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  
+  .simulated-tickets-wrapper {
+    max-width: 100%;
+    gap: 50px;
+  }
+  
+  .tm-ticket-card {
+    page-break-inside: avoid;
+    border: 2px dashed #000;
+    box-shadow: none;
+  }
+}
+
+/* Responsive grid modifications */
+@media (max-width: 768px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .checkout-left-column {
+    padding: 20px 15px;
+  }
+  
+  .stepper-container {
+    margin-bottom: 20px;
+  }
+  
+  .step {
+    font-size: 0.85rem;
+  }
+  
+  .sector-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .sector-price {
+    font-size: 0.95rem;
+  }
+  
+  .quantity-picker-wrapper {
+    padding: 15px;
+  }
+  
+  .payment-tabs {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .tm-ticket-card {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .tm-ticket-card::before, .tm-ticket-card::after {
+    display: none;
+  }
+  
+  .ticket-main-info {
+    border-right: none;
+    border-bottom: 2px dashed var(--border-color);
+    padding: 20px;
+  }
+  
+  .ticket-barcode-info {
+    padding: 20px;
+  }
+}
+

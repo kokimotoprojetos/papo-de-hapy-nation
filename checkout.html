@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" sizes="196x196" href="https://cdn.getcrowder.com/images/c1ade2d9-b2d1-484a-b163-0e5509e00144-favicon-32x32.png?w=196">
+  <title>Checkout - Compra de Ingressos | Ticketmaster Brasil</title>
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body id="CheckoutPage">
+  <!-- Skip link -->
+  <a href="#checkout-container" class="skip-link">Pular para o formulário</a>
+
+  <!-- Header -->
+  <header class="navbar-header">
+    <nav class="navbar" role="navigation">
+      <div class="navbar-container">
+        <a class="navbar-logo-link" href="index.html">
+          <img class="logo-light" src="https://cdn.getcrowder.com/images/46b77c52-6acd-425b-985f-c036a9dcbf90-ticketmaster.svg?w=300" alt="Ticketmaster Brasil Logo">
+        </a>
+        <div class="user-menu">
+          <a href="index.html" class="btn-login" style="text-decoration: none;">Voltar ao Evento</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Checkout Main Container -->
+  <main id="checkout-container" class="checkout-main">
+    <div class="checkout-wrapper">
+      <div class="checkout-grid" id="checkout-form-section">
+        
+        <!-- Left Column: Selection and Forms -->
+        <div class="checkout-left-column">
+          <!-- Stepper Indicator -->
+          <div class="stepper-container">
+            <div class="step active" id="step-indicator-1">1. Setores</div>
+            <div class="step" id="step-indicator-2">2. Identificação</div>
+            <div class="step" id="step-indicator-3">3. Pagamento</div>
+          </div>
+
+          <!-- Section 1: Sectors Selection -->
+          <section class="checkout-section active" id="section-sectors" aria-label="Seleção de Setor">
+            <h2 class="checkout-section-title">Escolha seu Setor e Quantidade</h2>
+            
+            <div class="sectors-list">
+              <!-- Pista Premium -->
+              <label class="sector-option" for="sector-premium">
+                <input type="radio" name="sector-selection" id="sector-premium" value="premium" checked data-price="850">
+                <div class="sector-details">
+                  <div class="sector-name">Pista Premium</div>
+                  <div class="sector-price">R$ 850,00 <span class="fee-text">+ 10% taxa</span></div>
+                </div>
+              </label>
+
+              <!-- Pista Comum -->
+              <label class="sector-option" for="sector-pista">
+                <input type="radio" name="sector-selection" id="sector-pista" value="pista" data-price="450">
+                <div class="sector-details">
+                  <div class="sector-name">Pista</div>
+                  <div class="sector-price">R$ 450,00 <span class="fee-text">+ 10% taxa</span></div>
+                </div>
+              </label>
+
+              <!-- Cadeira Inferior -->
+              <label class="sector-option" for="sector-inferior">
+                <input type="radio" name="sector-selection" id="sector-inferior" value="inferior" data-price="550">
+                <div class="sector-details">
+                  <div class="sector-name">Cadeira Inferior</div>
+                  <div class="sector-price">R$ 550,00 <span class="fee-text">+ 10% taxa</span></div>
+                </div>
+              </label>
+
+              <!-- Cadeira Superior -->
+              <label class="sector-option" for="sector-superior">
+                <input type="radio" name="sector-selection" id="sector-superior" value="superior" data-price="300">
+                <div class="sector-details">
+                  <div class="sector-name">Cadeira Superior</div>
+                  <div class="sector-price">R$ 300,00 <span class="fee-text">+ 10% taxa</span></div>
+                </div>
+              </label>
+            </div>
+
+            <!-- Quantity Selection -->
+            <div class="quantity-picker-wrapper">
+              <label for="ticket-quantity">Quantidade de Ingressos:</label>
+              <div class="qty-control">
+                <button type="button" class="qty-btn" id="qty-minus" aria-label="Diminuir">&minus;</button>
+                <input type="number" id="ticket-quantity" value="1" min="1" max="5" readonly>
+                <button type="button" class="qty-btn" id="qty-plus" aria-label="Aumentar">+</button>
+              </div>
+              <span class="max-qty-notice">Máximo de 5 ingressos por CPF.</span>
+            </div>
+
+            <div class="checkout-actions-row">
+              <button class="btn-checkout-next" id="btn-to-identity">Continuar para Identificação</button>
+            </div>
+          </section>
+
+          <!-- Section 2: Personal Identification Form -->
+          <section class="checkout-section" id="section-identity" aria-label="Dados do Comprador">
+            <h2 class="checkout-section-title">Dados do Comprador</h2>
+            <form id="identity-form" class="checkout-form">
+              <div class="form-group">
+                <label for="buyer-name">Nome Completo</label>
+                <input type="text" id="buyer-name" required placeholder="Digite seu nome completo">
+              </div>
+
+              <div class="form-group">
+                <label for="buyer-cpf">CPF</label>
+                <input type="text" id="buyer-cpf" required placeholder="000.000.000-00" maxlength="14">
+              </div>
+
+              <div class="form-group">
+                <label for="buyer-email">E-mail</label>
+                <input type="email" id="buyer-email" required placeholder="exemplo@email.com">
+              </div>
+              
+              <div class="form-group">
+                <label for="buyer-phone">Telefone / Celular</label>
+                <input type="text" id="buyer-phone" required placeholder="(11) 99999-9999">
+              </div>
+            </form>
+
+            <div class="checkout-actions-row">
+              <button class="btn-checkout-prev" id="btn-back-to-sectors">Voltar</button>
+              <button class="btn-checkout-next" id="btn-to-payment">Ir para o Pagamento</button>
+            </div>
+          </section>
+
+          <!-- Section 3: Payment Section -->
+          <section class="checkout-section" id="section-payment" aria-label="Forma de Pagamento">
+            <h2 class="checkout-section-title">Escolha a Forma de Pagamento</h2>
+            
+            <div class="payment-tabs">
+              <button type="button" class="payment-tab active" id="tab-pix">
+                <svg class="payment-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/>
+                </svg>
+                Pix (Rápido e Seguro)
+              </button>
+              <button type="button" class="payment-tab" id="tab-card">
+                <svg class="payment-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                </svg>
+                Cartão de Crédito
+              </button>
+            </div>
+
+            <!-- PIX Payment details -->
+            <div class="payment-content active" id="payment-pix-content">
+              <div class="pix-instructions">
+                <p>Ao clicar em "Finalizar Compra", um código Pix Copia e Cola e um QR Code serão gerados para o pagamento.</p>
+                <p class="highlight-p">O processamento é imediato e seus ingressos serão emitidos logo em seguida.</p>
+              </div>
+            </div>
+
+            <!-- Credit Card Payment details -->
+            <div class="payment-content" id="payment-card-content">
+              <form id="card-form" class="checkout-form">
+                <div class="form-group">
+                  <label for="card-number">Número do Cartão</label>
+                  <input type="text" id="card-number" placeholder="4532 0000 0000 0000" maxlength="19">
+                </div>
+                
+                <div class="form-group-row">
+                  <div class="form-group">
+                    <label for="card-holder">Nome no Cartão</label>
+                    <input type="text" id="card-holder" placeholder="NOME COMO NO CARTÃO">
+                  </div>
+                </div>
+
+                <div class="form-group-row-triple">
+                  <div class="form-group">
+                    <label for="card-expiry">Validade</label>
+                    <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5">
+                  </div>
+                  <div class="form-group">
+                    <label for="card-cvv">CVV</label>
+                    <input type="password" id="card-cvv" placeholder="123" maxlength="4">
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="checkout-actions-row">
+              <button class="btn-checkout-prev" id="btn-back-to-identity">Voltar</button>
+              <button class="btn-checkout-submit" id="btn-submit-purchase">Finalizar Compra</button>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right Column: Cart Summary Sidebar -->
+        <div class="checkout-right-column">
+          <div class="cart-summary-box">
+            <h3 class="summary-title">Resumo do Pedido</h3>
+            <div class="summary-event-info">
+              <h4 class="summary-event-name">BTS WORLD TOUR ARIRANG</h4>
+              <p class="summary-event-date" id="summary-show-date">Show de 28 de Outubro de 2026</p>
+              <p class="summary-event-venue">Estádio MorumBIS • São Paulo</p>
+            </div>
+
+            <hr class="summary-divider">
+
+            <div class="summary-pricing-rows">
+              <div class="pricing-row">
+                <span class="pricing-label" id="summary-item-desc">1x Pista Premium</span>
+                <span class="pricing-value" id="summary-item-price">R$ 850,00</span>
+              </div>
+              
+              <div class="pricing-row">
+                <span class="pricing-label">Taxa de serviço (10%)</span>
+                <span class="pricing-value" id="summary-fee-price">R$ 85,00</span>
+              </div>
+            </div>
+
+            <hr class="summary-divider">
+
+            <div class="summary-total-row">
+              <span class="total-label">Total a pagar</span>
+              <span class="total-value" id="summary-total-price">R$ 935,00</span>
+            </div>
+            
+            <div class="guarantee-badge">
+              <svg class="lock-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+              </svg>
+              Ambiente de pagamento 100% seguro.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Simulated Success Container (Hidden initially) -->
+      <div class="checkout-success-container" id="checkout-success-section" style="display: none;">
+        <div class="success-card">
+          <div class="success-header">
+            <div class="success-icon-wrapper">
+              <svg class="success-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <h2 class="success-title">Compra Finalizada com Sucesso!</h2>
+            <p class="success-subtitle">O seu pagamento foi aprovado e seu ingresso digital foi gerado.</p>
+          </div>
+
+          <div class="simulated-tickets-wrapper" id="generated-tickets-container">
+            <!-- Simulated Tickets will be dynamically loaded here by script.js -->
+          </div>
+
+          <div class="success-actions">
+            <button class="btn-print" onclick="window.print()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                <rect x="6" y="14" width="12" height="8"/>
+              </svg>
+              Imprimir Ingressos
+            </button>
+            <a href="index.html" class="btn-back-home">Voltar à Página Principal</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <img class="footer-logo" src="https://cdn.boletius.com/ticketmaster/ticketmaster-logo_white.png" alt="Ticketmaster logo">
+        <div class="footer-legal">
+          <p>&copy; 2026 Ticketmaster. Todos os direitos reservados. Projeto demonstrativo de portfólio.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

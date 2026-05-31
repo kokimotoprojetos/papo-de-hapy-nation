@@ -1854,5 +1854,269 @@ body {
   }
 }
 
+/* -------------------------------------------------------------
+   NAVBAR & AUTHENTICATION MODAL STYLES (TICKETMASTER THEME)
+   ------------------------------------------------------------- */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-support-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.85;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.nav-support-link:hover {
+  opacity: 1;
+}
+
+.btn-login-nav {
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.btn-login-nav:hover {
+  opacity: 0.8;
+}
+
+/* Authentication Modal Structure */
+.auth-modal-wrapper {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.auth-modal-dialog {
+  max-width: 500px;
+  width: 95%;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  background: white;
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+
+.auth-modal-content {
+  padding: 40px;
+  border: none;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-auth-modal {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 2rem;
+  font-weight: 300;
+  color: #757575;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--transition-speed) ease;
+  z-index: 10;
+}
+
+.close-auth-modal:hover {
+  color: var(--text-dark);
+}
+
+/* Auth state management display rules */
+.auth-section {
+  display: none;
+}
+
+.auth-section.active {
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+}
+
+.auth-modal-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.auth-modal-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  margin-bottom: 25px;
+}
+
+.auth-modal-subtitle a {
+  color: var(--primary-color);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.auth-form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.scrollable-form {
+  overflow-y: auto;
+  max-height: 55vh;
+  padding-right: 10px;
+}
+
+/* Form inputs & options styling */
+.auth-form-layout .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-form-layout label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.auth-form-layout input, 
+.auth-form-layout select {
+  padding: 12px 14px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-form-layout input:focus,
+.auth-form-layout select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.auth-form-layout select {
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Form grid layouts */
+.auth-form-layout .form-group-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.auth-form-layout .form-group-row-phone {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 15px;
+}
+
+.auth-form-layout .form-group-row-doc {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 15px;
+}
+
+.forgot-pass-link {
+  font-size: 0.85rem;
+  text-align: left;
+  margin: 5px 0 10px 0;
+}
+
+.forgot-pass-link a {
+  color: var(--text-gray);
+  text-decoration: underline;
+}
+
+/* Newsletter checkbox group */
+.form-checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.form-checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.form-checkbox-group label {
+  font-size: 0.78rem;
+  color: var(--text-gray);
+  font-weight: 400;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+/* Styled Blue Action Button */
+.btn-auth-submit {
+  font-family: var(--font-family);
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease;
+  width: 100%;
+}
+
+.btn-auth-submit:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Scrollbar styles for the registration dialog */
+.scrollable-form::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollable-form::-webkit-scrollbar-track {
+  background: #f1f2f5;
+  border-radius: 4px;
+}
+
+.scrollable-form::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.scrollable-form::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Responsive adjustment for auth modal */
+@media (max-width: 576px) {
+  .auth-modal-content {
+    padding: 25px 20px;
+  }
+  
+  .auth-form-layout .form-group-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+
 
 

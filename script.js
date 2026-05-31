@@ -325,4 +325,138 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize pricing on page load
     updatePricing();
   }
+
+  // --- Auth Modal Toggling & State Logic ---
+  const authModal = document.getElementById('auth-modal');
+  const loginNavBtn = document.getElementById('login_button');
+  const closeAuthBtn = document.getElementById('close-auth-btn');
+  
+  const loginSection = document.getElementById('auth-login-section');
+  const registerSection = document.getElementById('auth-register-section');
+  const linkToRegister = document.getElementById('link-to-register');
+  const linkToLogin = document.getElementById('link-to-login');
+
+  const loginForm = document.getElementById('auth-login-form');
+  const registerForm = document.getElementById('auth-register-form');
+
+  function openAuthModal(defaultState = 'login') {
+    if (!authModal) return;
+    authModal.classList.add('show');
+    authModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    if (defaultState === 'login') {
+      loginSection.classList.add('active');
+      registerSection.classList.remove('active');
+    } else {
+      registerSection.classList.add('active');
+      loginSection.classList.remove('active');
+    }
+  }
+
+  function closeAuthModal() {
+    if (!authModal) return;
+    authModal.classList.remove('show');
+    authModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (loginNavBtn && loginNavBtn.classList.contains('btn-login-nav')) {
+    loginNavBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (loginNavBtn.textContent.includes('Olá,')) {
+        if (confirm('Deseja sair da sua conta?')) {
+          loginNavBtn.textContent = 'Entrar / Cadastre-se';
+        }
+      } else {
+        openAuthModal('login');
+      }
+    });
+  }
+
+  if (closeAuthBtn) closeAuthBtn.addEventListener('click', closeAuthModal);
+
+  if (linkToRegister) {
+    linkToRegister.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginSection.classList.remove('active');
+      registerSection.classList.add('active');
+    });
+  }
+
+  if (linkToLogin) {
+    linkToLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      registerSection.classList.remove('active');
+      loginSection.classList.add('active');
+    });
+  }
+
+  if (authModal) {
+    authModal.addEventListener('click', (e) => {
+      if (e.target === authModal) {
+        closeAuthModal();
+      }
+    });
+  }
+
+  // Input formatting masks
+  const regCpf = document.getElementById('reg-cpf');
+  if (regCpf) {
+    regCpf.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, "");
+      value = value.replace(/(\d{3})(\d)/, "$1.$2");
+      value = value.replace(/(\d{3})(\d)/, "$1.$2");
+      value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+      e.target.value = value;
+    });
+  }
+
+  const regBirth = document.getElementById('reg-birthdate');
+  if (regBirth) {
+    regBirth.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, "");
+      value = value.replace(/(\d{2})(\d)/, "$1/$2");
+      value = value.replace(/(\d{2})(\d)/, "$1/$2");
+      e.target.value = value.substring(0, 10);
+    });
+  }
+
+  const regPhone = document.getElementById('reg-phone');
+  if (regPhone) {
+    regPhone.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, "");
+      value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
+      value = value.replace(/(\d)(\d{4})$/g, "$1-$2");
+      e.target.value = value;
+    });
+  }
+
+  // Submit Simulation handlers
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const userName = email.split('@')[0];
+      
+      if (loginNavBtn) {
+        loginNavBtn.textContent = `Olá, ${userName.substring(0, 10)}!`;
+      }
+      closeAuthModal();
+    });
+  }
+
+  if (registerForm) {
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const firstname = document.getElementById('reg-firstname').value;
+      
+      if (loginNavBtn) {
+        loginNavBtn.textContent = `Olá, ${firstname.substring(0, 10)}!`;
+      }
+      closeAuthModal();
+      alert('Cadastro realizado com sucesso!');
+    });
+  }
 });
+

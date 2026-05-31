@@ -45,7 +45,8 @@
         </a>
         
         <div class="user-menu">
-          <button id="login_button" class="btn-login" aria-label="Login">Entrar</button>
+          <a href="https://help.ticketmaster.com.br/hc/pt-br" target="_blank" rel="noopener" class="nav-support-link">Suporte ao Fã</a>
+          <button id="login_button" class="btn-login-nav" aria-label="Entrar ou Cadastrar-se">Entrar / Cadastre-se</button>
         </div>
       </div>
     </nav>
@@ -524,6 +525,129 @@
         </div>
         <div class="modal-footer">
           <button class="btn-primary" id="btn-modal-ok">Voltar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Login / Registration (Ticketmaster Style) -->
+  <div id="auth-modal" class="modal auth-modal-wrapper" aria-hidden="true" role="dialog">
+    <div class="modal-dialog auth-modal-dialog">
+      <div class="modal-content auth-modal-content">
+        <!-- Close button upper right -->
+        <button class="close-modal close-auth-modal" id="close-auth-btn" aria-label="Fechar Modal">&times;</button>
+        
+        <!-- 1. ACESSE A SUA CONTA -->
+        <div class="auth-section active" id="auth-login-section">
+          <h2 class="auth-modal-title">Acesse a sua conta</h2>
+          <p class="auth-modal-subtitle">Não tem uma conta? <a href="#" id="link-to-register">Cadastre-se agora</a></p>
+          
+          <form id="auth-login-form" class="auth-form-layout">
+            <div class="form-group">
+              <label for="login-email">E-Mail</label>
+              <input type="email" id="login-email" required placeholder="E-Mail">
+            </div>
+            
+            <div class="form-group">
+              <label for="login-password">Senha</label>
+              <input type="password" id="login-password" required placeholder="Senha">
+            </div>
+
+            <p class="forgot-pass-link"><a href="#">Esqueceu sua senha?</a></p>
+
+            <button type="submit" class="btn-auth-submit" id="btn-login-submit">Entrar</button>
+          </form>
+        </div>
+
+        <!-- 2. CRIAR UMA CONTA -->
+        <div class="auth-section" id="auth-register-section">
+          <h2 class="auth-modal-title">Criar uma conta</h2>
+          <p class="auth-modal-subtitle">Já tem uma conta? <a href="#" id="link-to-login">Entre aqui</a></p>
+          
+          <form id="auth-register-form" class="auth-form-layout scrollable-form">
+            <div class="form-group">
+              <label for="reg-email">E-Mail</label>
+              <input type="email" id="reg-email" required placeholder="E-Mail">
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="reg-password">Senha</label>
+                <input type="password" id="reg-password" required placeholder="Senha">
+              </div>
+              <div class="form-group">
+                <label for="reg-confirm-password">Confirmar Senha</label>
+                <input type="password" id="reg-confirm-password" required placeholder="Confirmar Senha">
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="reg-firstname">Nome</label>
+                <input type="text" id="reg-firstname" required placeholder="Nome">
+              </div>
+              <div class="form-group">
+                <label for="reg-lastname">Sobrenome</label>
+                <input type="text" id="reg-lastname" required placeholder="Sobrenome">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-country">País de Residência</label>
+              <select id="reg-country">
+                <option value="BR" selected>Brasil</option>
+              </select>
+            </div>
+
+            <div class="form-group-row-phone">
+              <div class="form-group group-ddi">
+                <label for="reg-ddi">DDI</label>
+                <select id="reg-ddi">
+                  <option value="+55" selected>+55</option>
+                </select>
+              </div>
+              <div class="form-group group-phone">
+                <label for="reg-phone">Telefone</label>
+                <input type="text" id="reg-phone" required placeholder="Telefone">
+              </div>
+            </div>
+
+            <div class="form-group-row-doc">
+              <div class="form-group group-doc-type">
+                <label for="reg-doc-type">Tipo de documento</label>
+                <select id="reg-doc-type">
+                  <option value="CPF" selected>CPF</option>
+                </select>
+              </div>
+              <div class="form-group group-cpf">
+                <label for="reg-cpf">CPF</label>
+                <input type="text" id="reg-cpf" required placeholder="CPF">
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="reg-birthdate">Data de nascimento</label>
+                <input type="text" id="reg-birthdate" required placeholder="DD/MM/AAAA" maxlength="10">
+              </div>
+              <div class="form-group">
+                <label for="reg-gender">Gênero</label>
+                <select id="reg-gender">
+                  <option value="" disabled selected>Selecionar</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Feminino</option>
+                  <option value="O">Outro</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-checkbox-group">
+              <input type="checkbox" id="reg-newsletter">
+              <label for="reg-newsletter">Deixe-nos mantê-lo informado sobre o que está por vir – incluindo pré-vendas e ofertas exclusivas – por meios eletrônicos (por exemplo, e-mail, ferramentas de mensageria, redes sociais, etc.). Você sempre pode alterar a forma como entramos em contato com você por meio de sua conta Ticketmaster.</label>
+            </div>
+
+            <button type="submit" class="btn-auth-submit" id="btn-register-submit">Cadastre-se</button>
+          </form>
         </div>
       </div>
     </div>

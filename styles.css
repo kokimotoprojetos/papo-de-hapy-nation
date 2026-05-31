@@ -1814,8 +1814,45 @@ body {
   
   .prices-table th, .prices-table td {
     padding: 12px 8px;
+  .prices-table th, .prices-table td {
+    padding: 12px 8px;
     font-size: 0.95rem;
   }
 }
+
+/* Email Delivery Alert Success Box */
+.email-delivery-alert {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(2, 77, 223, 0.05);
+  border-left: 4px solid var(--primary-color);
+  padding: 16px 20px;
+  border-radius: 4px;
+  margin: 25px auto 0 auto;
+  max-width: 600px;
+  text-align: left;
+}
+
+.email-icon-svg {
+  width: 28px;
+  height: 28px;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.email-delivery-alert p {
+  font-size: 0.98rem;
+  color: var(--text-dark);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media print {
+  .email-delivery-alert {
+    display: none !important;
+  }
+}
+
 
 

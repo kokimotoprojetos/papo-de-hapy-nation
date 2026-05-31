@@ -267,6 +267,51 @@
 
       </div>
 
+      <!-- Pix Payment Pending Container (Hidden initially) -->
+      <div class="checkout-pix-container" id="checkout-pix-section" style="display: none;">
+        <div class="pix-card">
+          <div class="pix-header">
+            <div class="pix-icon-wrapper">
+              <svg class="pix-logo-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/>
+              </svg>
+            </div>
+            <h2 class="pix-title">Aguardando Pagamento do Pix</h2>
+            <p class="pix-subtitle">Escaneie o QR Code abaixo ou copie o código Pix Copia e Cola para realizar o pagamento.</p>
+          </div>
+
+          <div class="pix-body">
+            <div class="pix-qrcode-box">
+              <img id="pix-qrcode-img" src="" alt="QR Code Pix">
+              <div class="pix-timer-box">
+                Este código Pix expira em: <span id="pix-countdown">15:00</span>
+              </div>
+            </div>
+
+            <div class="pix-code-box">
+              <label for="pix-copiapaste-code">Código Pix Copia e Cola:</label>
+              <div class="pix-input-group">
+                <input type="text" id="pix-copiapaste-code" readonly value="" onclick="this.select()">
+                <button type="button" id="btn-copy-pix">Copiar Código</button>
+              </div>
+              <span class="copy-success-msg" id="copy-success-msg" style="display:none;">Código copiado com sucesso!</span>
+            </div>
+
+            <div class="pix-status-box">
+              <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                <span>Aguardando confirmação do pagamento...</span>
+              </div>
+              <p class="pix-warning-text">Assim que você realizar o pagamento, esta tela será atualizada automaticamente e seus ingressos serão emitidos.</p>
+            </div>
+          </div>
+
+          <div class="pix-actions">
+            <button type="button" class="btn-bypass-pix" id="btn-bypass-pix">Confirmar Pagamento (Simulação)</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Simulated Success Container (Hidden initially) -->
       <div class="checkout-success-container" id="checkout-success-section" style="display: none;">
         <div class="success-card">
@@ -306,6 +351,14 @@
 
     </div>
   </main>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner-box">
+      <div class="loading-spinner"></div>
+      <p id="loading-message">Processando pagamento com InvictusPay...</p>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer-section">

@@ -241,26 +241,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Purchase validation and simulated completion
-    document.getElementById('btn-submit-purchase').addEventListener('click', () => {
-      const name = document.getElementById('buyer-name').value.trim();
-      const cpf = document.getElementById('buyer-cpf').value.trim();
-      const email = document.getElementById('buyer-email').value.trim();
+    let pollInterval = null;
 
-      // Card validations if card is selected
-      if (paymentMethod === 'card') {
-        const ccNumber = document.getElementById('card-number').value.trim();
-        const ccHolder = document.getElementById('card-holder').value.trim();
-        const ccExpiry = document.getElementById('card-expiry').value.trim();
-        const ccCvv = document.getElementById('card-cvv').value.trim();
-
-        if (!ccNumber || !ccHolder || !ccExpiry || !ccCvv) {
-          alert('Por favor, preencha todos os dados do Cartão de Crédito.');
-          return;
-        }
+    // Helper to show/hide loading overlay
+    function showLoading(msg) {
+      const overlay = document.getElementById('loading-overlay');
+      const text = document.getElementById('loading-message');
+      if (overlay && text) {
+        text.textContent = msg || 'Processando...';
+        overlay.style.display = 'flex';
       }
+    }
 
-      // Hide layout & render success tickets
+    function hideLoading() {
+      const overlay = document.getElementById('loading-overlay');
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+    }
+
+    // Clipboard copy action
+    const btnCopyPix = document.getElementById('btn-copy-pix');
+    if (btnCopyPix) {
+      btnCopyPix.addEventListener('click', () => {
+        const input = document.getElementById('pix-copiapaste-code');
+        if (input) {
+          input.select();
+          navigator.clipboard.writeText(input.value).then(() => {
+            const successMsg = document.getElementById('copy-success-msg');
+            if (successMsg) {
+              successMsg.style.display = 'block';
+              setTimeout(() => {
+                successMsg.style.display = 'none';
+              }, 3000);
+            }
+          }).catch(err => {
+            console.error('Failed to copy text: ', err);
+          });
+        }
+      });
+    }
+
+    // Helper to generate the success tickets screen
+    function showSuccessTickets(name, cpf) {
+      // Hide form & Pix container
       document.getElementById('checkout-form-section').style.display = 'none';
+      document.getElementById('checkout-pix-section').style.display = 'none';
       const successSection = document.getElementById('checkout-success-section');
       successSection.style.display = 'block';
 
@@ -320,7 +346,210 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    }
+
+    // Purchase validation and Invictus Pay integration
+    document.getElementById('btn-submit-purchase').addEventListener('click', async () => {
+      const name = document.getElementById('buyer-name').value.trim();
+      const cpf = document.getElementById('buyer-cpf').value.trim();
+      const email = document.getElementById('buyer-email').value.trim();
+      const phone = document.getElementById('buyer-phone').value.trim();
+
+      // Basic validations
+      if (!name || !cpf || !email || !phone) {
+        alert('Por favor, preencha todos os dados de identificação.');
+        goToStep(2);
+        return;
+      }
+
+      const cleanCpf = cpf.replace(/\D/g, '');
+      const cleanPhone = phone.replace(/\D/g, '');
+
+      if (cleanCpf.length !== 11) {
+        alert('Por favor, digite um CPF válido.');
+        goToStep(2);
+        return;
+      }
+
+      const totalValue = (ticketPrice * quantity * 1.10); // Ticket price + 10% tax
+      const amountCents = Math.round(totalValue * 100);
+
+      const apiToken = '4puFJxwmWBVhKl4QcnBRnRob54YscEYFBeFSaCr0ljG4hVn1uaB2eXPsMWQY';
+      const defaultOfferHash = 'sflcapne6m';
+      const defaultProductHash = 'ebkyuskgpr';
+
+      const customer = {
+        name: name,
+        email: email,
+        phone_number: cleanPhone.substring(0, 15),
+        document: cleanCpf
+      };
+
+      const cart = [{
+        product_hash: defaultProductHash,
+        title: `Ingresso BTS - ${sectorName}`,
+        price: amountCents,
+        quantity: 1,
+        operation_type: 1,
+        tangible: false
+      }];
+
+      if (paymentMethod === 'pix') {
+        showLoading('Iniciando transação Pix com InvictusPay...');
+
+        const payload = {
+          amount: amountCents,
+          offer_hash: defaultOfferHash,
+          payment_method: 'pix',
+          customer: customer,
+          cart: cart
+        };
+
+        try {
+          const response = await fetch(`https://api.invictuspay.app.br/api/public/v1/transactions?api_token=${apiToken}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const resData = await response.json();
+          hideLoading();
+
+          if (response.status === 201 && resData.pix && resData.pix.pix_qr_code) {
+            const pixCode = resData.pix.pix_qr_code;
+            const transactionHash = resData.hash;
+
+            // Set inputs
+            const pixCodeInput = document.getElementById('pix-copiapaste-code');
+            if (pixCodeInput) pixCodeInput.value = pixCode;
+
+            const pixQrCodeImg = document.getElementById('pix-qrcode-img');
+            if (pixQrCodeImg) {
+              pixQrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(pixCode)}`;
+            }
+
+            // Show Pix Section
+            document.getElementById('checkout-form-section').style.display = 'none';
+            document.getElementById('checkout-pix-section').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Countdown Timer (15 minutes)
+            let timeRemaining = 15 * 60;
+            const countdownEl = document.getElementById('pix-countdown');
+            const countdownInterval = setInterval(() => {
+              timeRemaining--;
+              const minutes = Math.floor(timeRemaining / 60);
+              const seconds = timeRemaining % 60;
+              if (countdownEl) {
+                countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+              }
+              if (timeRemaining <= 0) {
+                clearInterval(countdownInterval);
+                clearInterval(pollInterval);
+                alert('O código Pix expirou. Por favor, reinicie a compra.');
+                location.reload();
+              }
+            }, 1000);
+
+            // Poll Transaction Status
+            pollInterval = setInterval(async () => {
+              try {
+                const pollRes = await fetch(`https://api.invictuspay.app.br/api/public/v1/transactions/${transactionHash}?api_token=${apiToken}`);
+                if (pollRes.status === 200) {
+                  const pollData = await pollRes.json();
+                  const currentStatus = pollData.data ? (pollData.data.status || pollData.data.payment_status) : null;
+                  if (currentStatus === 'paid' || currentStatus === 'success') {
+                    clearInterval(pollInterval);
+                    clearInterval(countdownInterval);
+                    showSuccessTickets(name, cpf);
+                  }
+                }
+              } catch (err) {
+                console.error('Error polling transaction:', err);
+              }
+            }, 5000);
+
+            // Manual Sim Confirmation Bypass Button
+            const btnBypass = document.getElementById('btn-bypass-pix');
+            if (btnBypass) {
+              const newBypassBtn = btnBypass.cloneNode(true);
+              btnBypass.replaceWith(newBypassBtn);
+              newBypassBtn.addEventListener('click', () => {
+                clearInterval(pollInterval);
+                clearInterval(countdownInterval);
+                showSuccessTickets(name, cpf);
+              });
+            }
+          } else {
+            alert(`Erro ao gerar Pix: ${resData.message || 'Verifique seus dados de CPF e telefone.'}`);
+          }
+        } catch (err) {
+          hideLoading();
+          console.error(err);
+          alert('Erro de conexão com o servidor de pagamento. Tente novamente.');
+        }
+
+      } else {
+        // Credit Card submit handler
+        const ccNumber = document.getElementById('card-number').value.trim();
+        const ccHolder = document.getElementById('card-holder').value.trim();
+        const ccExpiry = document.getElementById('card-expiry').value.trim();
+        const ccCvv = document.getElementById('card-cvv').value.trim();
+
+        if (!ccNumber || !ccHolder || !ccExpiry || !ccCvv) {
+          alert('Por favor, preencha todos os dados do Cartão de Crédito.');
+          return;
+        }
+
+        showLoading('Processando transação com cartão no InvictusPay...');
+
+        const expiryParts = ccExpiry.split('/');
+        const expMonth = expiryParts[0] ? expiryParts[0].trim() : '';
+        const expYear = expiryParts[1] ? '20' + expiryParts[1].trim() : '';
+
+        const payload = {
+          amount: amountCents,
+          offer_hash: defaultOfferHash,
+          payment_method: 'credit_card',
+          customer: customer,
+          cart: cart,
+          card: {
+            number: ccNumber.replace(/\s/g, ''),
+            holder_name: ccHolder.toUpperCase(),
+            exp_month: expMonth,
+            exp_year: expYear,
+            cvv: ccCvv
+          }
+        };
+
+        try {
+          const response = await fetch(`https://api.invictuspay.app.br/api/public/v1/transactions?api_token=${apiToken}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const resData = await response.json();
+          hideLoading();
+
+          // Standard check for successful transaction status
+          const currentStatus = resData.payment_status || resData.status;
+          if (response.status === 201 && (currentStatus === 'paid' || currentStatus === 'success')) {
+            showSuccessTickets(name, cpf);
+          } else {
+            const errorMsg = resData.message || resData.status_reason || 'Transação recusada ou dados de cartão inválidos.';
+            alert(`Erro no Cartão de Crédito: ${errorMsg}`);
+          }
+        } catch (err) {
+          hideLoading();
+          console.error(err);
+          alert('Erro de conexão com o servidor de pagamento. Tente novamente.');
+        }
+      }
 
     // Initialize pricing on page load
     updatePricing();

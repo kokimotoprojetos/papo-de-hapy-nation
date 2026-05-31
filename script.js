@@ -268,39 +268,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const generatedTicketsContainer = document.getElementById('generated-tickets-container');
       generatedTicketsContainer.innerHTML = ''; // reset
 
-      // Draw vector mock QR code
-      const qrCodeMockSvg = `
-        <svg class="ticket-qr-sim" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <!-- Outer border -->
-          <rect x="0" y="0" width="100" height="100" fill="white" />
-          <!-- QR Code corners boxes -->
-          <rect x="5" y="5" width="25" height="25" fill="black" />
-          <rect x="10" y="10" width="15" height="15" fill="white" />
-          <rect x="13" y="13" width="9" height="9" fill="black" />
-          
-          <rect x="70" y="5" width="25" height="25" fill="black" />
-          <rect x="75" y="10" width="15" height="15" fill="white" />
-          <rect x="78" y="13" width="9" height="9" fill="black" />
-          
-          <rect x="5" y="70" width="25" height="25" fill="black" />
-          <rect x="10" y="75" width="15" height="15" fill="white" />
-          <rect x="13" y="78" width="9" height="9" fill="black" />
-          
-          <!-- Mock QR details dots -->
-          <rect x="40" y="15" width="5" height="15" fill="black" />
-          <rect x="50" y="5" width="10" height="5" fill="black" />
-          <rect x="35" y="40" width="15" height="5" fill="black" />
-          <rect x="15" y="40" width="5" height="10" fill="black" />
-          <rect x="45" y="50" width="20" height="10" fill="black" />
-          <rect x="70" y="45" width="10" height="15" fill="black" />
-          <rect x="80" y="75" width="10" height="10" fill="black" />
-          <rect x="45" y="70" width="15" height="5" fill="black" />
-          <rect x="50" y="80" width="15" height="15" fill="black" />
-        </svg>
-      `;
-
       for (let i = 1; i <= quantity; i++) {
         const ticketCode = `TM-${selectedDate}10-${Math.floor(100000 + Math.random() * 900000)}`;
+        const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(ticketCode)}`;
         const ticketCardHTML = `
           <div class="tm-ticket-card">
             <div class="ticket-main-info">
@@ -340,9 +310,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             <div class="ticket-barcode-info">
               <div class="ticket-qrcode-wrapper">
-                ${qrCodeMockSvg}
+                <img class="ticket-qr-sim" src="${qrCodeUrl}" alt="Código QR do Ingresso ${i}">
               </div>
-              <span class="ticket-serial">${ticketCode.replace('-', '')}</span>
+              <span class="ticket-serial">${ticketCode.replace(/-/g, '')}</span>
             </div>
           </div>
         `;

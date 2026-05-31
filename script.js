@@ -94,9 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const summaryFeePrice = document.getElementById('summary-fee-price');
     const summaryTotalPrice = document.getElementById('summary-total-price');
 
-    let ticketPrice = 850; // default for premium
+    let ticketPrice = 1250; // default for pista-inteira
     let quantity = 1;
-    let sectorName = "Pista Premium";
+    let sectorName = "Pista (Inteira)";
 
     function updatePricing() {
       // Determine selected sector info

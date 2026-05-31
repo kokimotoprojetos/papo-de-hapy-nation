@@ -220,6 +220,124 @@
         </div>
       </section>
 
+      <!-- Setores e Preços Section -->
+      <section class="sectors-prices-section" aria-label="Setores e Preços">
+        <div class="sectors-prices-box">
+          <h2 class="sectors-title">SETORES E PREÇOS</h2>
+          <div class="sectors-grid">
+            <!-- Table of Prices -->
+            <div class="table-container">
+              <table class="prices-table">
+                <thead>
+                  <tr>
+                    <th>Setor</th>
+                    <th>Inteira</th>
+                    <th>Meia-entrada</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span class="sector-color-indicator color-arquibancada"></span>
+                      Arquibancada
+                    </td>
+                    <td class="price-val">R$680,00</td>
+                    <td class="price-val">R$340,00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="sector-color-indicator color-superior"></span>
+                      Cadeira Superior
+                    </td>
+                    <td class="price-val">R$980,00</td>
+                    <td class="price-val">R$490,00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="sector-color-indicator color-inferior"></span>
+                      Cadeira Inferior
+                    </td>
+                    <td class="price-val">R$1.080,00</td>
+                    <td class="price-val">R$540,00</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="sector-color-indicator color-pista"></span>
+                      Pista
+                    </td>
+                    <td class="price-val">R$1.250,00</td>
+                    <td class="price-val">R$625,00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Stadium Map Illustration (High Fidelity SVG) -->
+            <div class="map-illustration-container">
+              <svg viewBox="0 0 500 400" class="stadium-svg" xmlns="http://www.w3.org/2000/svg">
+                <!-- Stadium Base Shape -->
+                <ellipse cx="250" cy="200" rx="180" ry="160" fill="none" stroke="#e1e4e6" stroke-width="2" />
+                
+                <!-- 1. Arquibancada (Red Ring - Outer) -->
+                <ellipse cx="250" cy="200" rx="170" ry="150" fill="none" stroke="#FF0000" stroke-width="14" />
+                
+                <!-- 2. Cadeira Superior (Yellow Ring - Middle Outer) -->
+                <ellipse cx="250" cy="200" rx="150" ry="130" fill="none" stroke="#FFA500" stroke-width="14" />
+                
+                <!-- 3. Cadeira Inferior (Cyan Ring segments - Left and Right) -->
+                <ellipse cx="250" cy="200" rx="130" ry="110" fill="none" stroke="#00FFFF" stroke-width="14" stroke-dasharray="190 120 190 120" stroke-dashoffset="95" />
+                
+                <!-- 4. Pista (Blue Central Oval) -->
+                <ellipse cx="250" cy="200" rx="110" ry="90" fill="#024DDF" stroke="#ffffff" stroke-width="2" />
+                
+                <!-- Stage Layout in Palco (Black X structure) -->
+                <g transform="translate(250, 200)">
+                  <circle cx="0" cy="0" r="22" fill="#1a1a1a" stroke="white" stroke-width="2" />
+                  <line x1="-30" y1="-30" x2="30" y2="30" stroke="#1a1a1a" stroke-width="12" stroke-linecap="square" />
+                  <line x1="-30" y1="30" x2="30" y2="-30" stroke="#1a1a1a" stroke-width="12" stroke-linecap="square" />
+                  <line x1="-30" y1="-30" x2="30" y2="30" stroke="white" stroke-width="2" />
+                  <line x1="-30" y1="30" x2="30" y2="-30" stroke="white" stroke-width="2" />
+                  <text x="0" y="4" fill="white" font-size="7" font-weight="900" text-anchor="middle">PALCO</text>
+                </g>
+
+                <!-- Labels Inside Pista -->
+                <text x="250" y="140" fill="white" font-size="9" font-weight="700" text-anchor="middle">PISTA</text>
+                <text x="250" y="270" fill="white" font-size="9" font-weight="700" text-anchor="middle">PISTA</text>
+                <text x="365" y="203" fill="white" font-size="9" font-weight="700" text-anchor="middle">PISTA</text>
+                
+                <!-- Wheelchair accessibility icon group -->
+                <g transform="translate(180, 192)">
+                  <circle cx="6" cy="4" r="2.5" fill="white"/>
+                  <path d="M9 13.5v-3.5c0-.55-.45-1-1-1h-2v-3c0-.55-.45-1-1-1h-2c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h2.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5h-2.5v-3h1.5v3.5c0 .55.45 1 1 1h3.5v2.5c0 .28.22.5.5.5s.5-.22.5-.5z" fill="white"/>
+                  <path d="M4.5 12c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5c.28 0 .5-.22.5-.5s-.22-.5-.5-.5c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5c1.93 0 3.5-1.57 3.5-3.5 0-.28-.22-.5-.5-.5s-.5.22-.5.5c0 1.38-1.12 2.5-2.5 2.5z" fill="white"/>
+                  <text x="14" y="11" fill="white" font-size="9" font-weight="700">PISTA</text>
+                </g>
+                
+                <!-- Sector Pointer Lines and Texts -->
+                <!-- Arquibancada (Red) -->
+                <path d="M320 340 L355 315" fill="none" stroke="#7d7d7d" stroke-width="1" />
+                <text x="315" y="343" fill="black" font-size="9" font-weight="700" text-anchor="end">ARQUIBANCADA</text>
+
+                <!-- Cadeira Superior (Orange) -->
+                <line x1="450" y1="130" x2="415" y2="130" stroke="#7d7d7d" stroke-width="1" />
+                <path d="M415 130 L385 160" fill="none" stroke="#7d7d7d" stroke-width="1" />
+                <text x="455" y="128" fill="black" font-size="9" font-weight="700" text-anchor="start">CADEIRA</text>
+                <text x="455" y="138" fill="black" font-size="9" font-weight="700" text-anchor="start">SUPERIOR</text>
+
+                <!-- Cadeira Inferior (Cyan) -->
+                <line x1="450" y1="310" x2="415" y2="310" stroke="#7d7d7d" stroke-width="1" />
+                <path d="M415 310 L370 275" fill="none" stroke="#7d7d7d" stroke-width="1" />
+                <text x="455" y="308" fill="black" font-size="9" font-weight="700" text-anchor="start">CADEIRA</text>
+                <text x="455" y="318" fill="black" font-size="9" font-weight="700" text-anchor="start">INFERIOR</text>
+                
+                <!-- Map Illustrative Note -->
+                <text x="495" y="390" fill="#7d7d7d" font-size="7" text-anchor="end">MAPA ILUSTRATIVO</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Event description & secondary banner -->
       <section class="event-details-section">
         <div class="details-content-grid">

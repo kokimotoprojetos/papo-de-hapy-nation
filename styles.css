@@ -1682,3 +1682,140 @@ body {
   }
 }
 
+/* -------------------------------------------------------------
+   SETORES E PREÇOS LANDING SECTION STYLES
+   ------------------------------------------------------------- */
+.sectors-prices-section {
+  padding: 40px 20px;
+  background-color: var(--bg-color);
+}
+
+.sectors-prices-box {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 40px 30px;
+}
+
+.sectors-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #0046cb; /* Blue color matching the image headers */
+  margin-bottom: 30px;
+  letter-spacing: -0.5px;
+  border-bottom: 2px solid #0046cb;
+  padding-bottom: 10px;
+}
+
+.sectors-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 45px;
+  align-items: center;
+}
+
+/* Prices Table Styling */
+.table-container {
+  overflow-x: auto;
+}
+
+.prices-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.prices-table th {
+  padding: 12px 15px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0046cb;
+  border-bottom: 2px solid #0046cb;
+}
+
+.prices-table td {
+  padding: 18px 15px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  border-bottom: 1px solid #e1e4e6;
+  vertical-align: middle;
+}
+
+.prices-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Color indicator dots representing image map colors */
+.sector-color-indicator {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+.color-arquibancada {
+  background-color: #FF0000;
+}
+
+.color-superior {
+  background-color: #FFA500;
+}
+
+.color-inferior {
+  background-color: #00FFFF;
+}
+
+.color-pista {
+  background-color: #024DDF;
+}
+
+.price-val {
+  font-weight: 700;
+}
+
+/* Stadium Map Styling */
+.map-illustration-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fbfcfd;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #f0f2f5;
+}
+
+.stadium-svg {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .sectors-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sectors-prices-box {
+    padding: 20px 15px;
+  }
+  
+  .sectors-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .prices-table th, .prices-table td {
+    padding: 12px 8px;
+    font-size: 0.95rem;
+  }
+}
+
+

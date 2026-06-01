@@ -459,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const pollRes = await fetch(`/api/get-transaction?hash=${transactionHash}`);
                 if (pollRes.status === 200) {
                   const pollData = await pollRes.json();
-                  const currentStatus = pollData.data ? (pollData.data.status || pollData.data.payment_status) : null;
+                  const currentStatus = pollData.payment_status || pollData.status;
                   if (currentStatus === 'paid' || currentStatus === 'success') {
                     clearInterval(pollInterval);
                     clearInterval(countdownInterval);
@@ -483,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   hideLoading();
                   if (checkRes.status === 200) {
                     const checkData = await checkRes.json();
-                    const currentStatus = checkData.data ? (checkData.data.status || checkData.data.payment_status) : null;
+                    const currentStatus = checkData.payment_status || checkData.status;
                     if (currentStatus === 'paid' || currentStatus === 'success') {
                       clearInterval(pollInterval);
                       clearInterval(countdownInterval);

@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-          const response = await fetch(`https://api.invictuspay.app.br/api/public/v1/transactions?api_token=${apiToken}`, {
+          const response = await fetch('/api/create-transaction', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Poll Transaction Status
             pollInterval = setInterval(async () => {
               try {
-                const pollRes = await fetch(`https://api.invictuspay.app.br/api/public/v1/transactions/${transactionHash}?api_token=${apiToken}`);
+                const pollRes = await fetch(`/api/get-transaction?hash=${transactionHash}`);
                 if (pollRes.status === 200) {
                   const pollData = await pollRes.json();
                   const currentStatus = pollData.data ? (pollData.data.status || pollData.data.payment_status) : null;
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-          const response = await fetch(`https://api.invictuspay.app.br/api/public/v1/transactions?api_token=${apiToken}`, {
+          const response = await fetch('/api/create-transaction', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

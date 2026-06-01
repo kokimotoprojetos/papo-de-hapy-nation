@@ -550,6 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
           alert('Erro de conexão com o servidor de pagamento. Tente novamente.');
         }
       }
+    });
 
     // Initialize pricing on page load
     updatePricing();

@@ -471,15 +471,34 @@ document.addEventListener('DOMContentLoaded', () => {
               }
             }, 5000);
 
-            // Manual Sim Confirmation Bypass Button
-            const btnBypass = document.getElementById('btn-bypass-pix');
-            if (btnBypass) {
-              const newBypassBtn = btnBypass.cloneNode(true);
-              btnBypass.replaceWith(newBypassBtn);
-              newBypassBtn.addEventListener('click', () => {
-                clearInterval(pollInterval);
-                clearInterval(countdownInterval);
-                showSuccessTickets(name, cpf);
+            // Real manual verification button
+            const btnVerify = document.getElementById('btn-verify-pix');
+            if (btnVerify) {
+              const newVerifyBtn = btnVerify.cloneNode(true);
+              btnVerify.replaceWith(newVerifyBtn);
+              newVerifyBtn.addEventListener('click', async () => {
+                showLoading('Verificando status do pagamento com o banco...');
+                try {
+                  const checkRes = await fetch(`/api/get-transaction?hash=${transactionHash}`);
+                  hideLoading();
+                  if (checkRes.status === 200) {
+                    const checkData = await checkRes.json();
+                    const currentStatus = checkData.data ? (checkData.data.status || checkData.data.payment_status) : null;
+                    if (currentStatus === 'paid' || currentStatus === 'success') {
+                      clearInterval(pollInterval);
+                      clearInterval(countdownInterval);
+                      showSuccessTickets(name, cpf);
+                    } else {
+                      alert('Pagamento ainda não confirmado. Se você já realizou o Pix, por favor aguarde alguns instantes e clique em "Confirmar Pagamento" novamente.');
+                    }
+                  } else {
+                    alert('Não foi possível verificar o pagamento neste momento. Tente novamente em instantes.');
+                  }
+                } catch (err) {
+                  hideLoading();
+                  console.error('Error verifying transaction manually:', err);
+                  alert('Erro de conexão ao verificar o pagamento. Tente novamente.');
+                }
               });
             }
           } else {

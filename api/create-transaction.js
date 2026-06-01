@@ -4,6 +4,15 @@ export default async function handler(req, res) {
   }
 
   const apiToken = process.env.INVICTUS_API_TOKEN || '4puFJxwmWBVhKl4QcnBRnRob54YscEYFBeFSaCr0ljG4hVn1uaB2eXPsMWQY';
+  const productHash = process.env.INVICTUS_PRODUCT_HASH || 'ebkyuskgpr';
+  const offerHash = process.env.INVICTUS_OFFER_HASH || 'sflcapne6m';
+
+  // Override hashes in the payload with env variables if provided
+  const payload = req.body;
+  if (payload.offer_hash) payload.offer_hash = offerHash;
+  if (payload.cart && payload.cart[0]) {
+    payload.cart[0].product_hash = productHash;
+  }
 
   try {
     const response = await fetch(`https://api.invictuspay.app.br/api/public/v1/transactions?api_token=${apiToken}`, {
@@ -11,7 +20,7 @@ export default async function handler(req, res) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(req.body)
+      body: JSON.stringify(payload)
     });
 
     const data = await response.json();
